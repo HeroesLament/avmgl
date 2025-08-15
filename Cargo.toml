@@ -1,0 +1,23 @@
+[package]
+name = "avmgl-rs"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "avmgl_rs"
+crate-type = ["lib"]
+
+[dependencies]
+avmnif-rs = { version = "0.3.0", optional = true }
+paste = "1.0.15"
+
+[features]
+default = ["nifs"]
+nifs = ["avmnif-rs"]
+
+[profile.release]
+opt-level = "z"        # prioritize smallest size
+lto = "fat"            # whole-program optimization
+codegen-units = 1      # better LTO results
+strip = "symbols"      # remove all symbols (needs rustc >= 1.69)
+panic = "abort"        # smaller than unwind tables
